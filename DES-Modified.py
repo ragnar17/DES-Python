@@ -1,15 +1,14 @@
-
-gen = __import__('S-P Boxes Generator')
-
 class DES_M:
 
-    def __init__(self,block_size,rounds,key,seed):
+    def __init__(self,block_size,rounds,key,seed,mask = 0):
         self.block_size = block_size
         self.rounds = rounds
         self.seed = seed
+        gen = __import__('S-P Boxes Generator')
         self.boxes = gen.ESP_BOX_Generator(block_size,seed)
+        self.mask = mask
+
         self.keys = self.generate_keys(key,rounds,block_size)
-        
 
     def char_to_binary(self,x,sz):
         return self.num_to_binary(ord(x),sz)
@@ -74,6 +73,12 @@ class DES_M:
             raise "Key length should be atleast "+str(key_size//8)
         key = key[:key_size//8]
         key_arr = self.string_to_binary(key,8)
+
+        if self.mask:
+            import random
+            random.seed(self.seed)
+            key_arr[random.randint(0,len(key_arr))] ^= 1
+
         key = self.permutation(key_arr,self.boxes.PC_1)
         tmp = self.split_array(key,(key_size-key_size//8)//2)
         c0,d0 = tmp[0], tmp[1]
@@ -151,10 +156,10 @@ secret_key = "aecret_k"
 #-------------------------------------------------------#
 
 #des object
-des_o = DES_M(block_size,rounds,secret_key,seed)
-cypher , cypher_dash = des_o.encrypt(msg)
+# des_o = DES_M(block_size,rounds,secret_key,seed)
+# cypher , cypher_dash = des_o.encrypt(msg)
 
-print("Encrypt : %r" %cypher)
+# print("Encrypt : %r" %cypher)
 
-m , _ = des_o.decrypt(cypher)
-print("Decrypt :",m)
+# m , _ = des_o.decrypt(cypher)
+# print("Decrypt :",m)
