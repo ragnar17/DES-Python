@@ -36,6 +36,7 @@ rounds = 16
 secret_key = "secret_k"
 seed = 7
 msg = "hello wo"
+msg2 = "eello wo"
 
 #Change in Key
 for i in blocks:
@@ -43,7 +44,6 @@ for i in blocks:
 	x_points.append(x)
 	y_points.append(y)
 #Change in plaintext
-msg2 = "eello wo"
 for i in blocks:
 	x,y = getDataPoints(msg,msg2,rounds,i,seed,0)
 	x_points.append(x)
