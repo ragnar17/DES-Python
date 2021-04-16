@@ -73,7 +73,6 @@ class DES_M:
             raise "Key length should be atleast "+str(key_size//8)
         key = key[:key_size//8]
         key_arr = self.string_to_binary(key,8)
-
         if self.mask:
             import random
             random.seed(self.seed)
@@ -123,7 +122,6 @@ class DES_M:
                 R = R_dash
 
                 cryp_inter[i].extend(self.permutation(R+L,self.boxes.IP_dash))
-
             tmp = R + L
             
             tmp = self.permutation(tmp,self.boxes.IP_dash)
@@ -133,10 +131,18 @@ class DES_M:
         return cryp , cryp_inter
 
     def encrypt(self,msg):
+        #Add Padding
+        pad_l = 8 - len(msg)%8
+        pad = ""
+        for i in range(pad_l):
+            pad += chr(ord('0')+pad_l)
+        msg = msg + pad
         return self.DEA(msg,self.keys)
 
     def decrypt(self,c):
-        return self.DEA(c,list(reversed(self.keys)))
+        m , m_inter = self.DEA(c,list(reversed(self.keys)))
+        pad_l = int(m[-1])
+        return m[:len(m)-pad_l], m_inter
 
 
 
@@ -150,12 +156,12 @@ seed = 20
 
 #-------------Set Plaintext and Secret key-----------------#
 
-msg = "Hello wo"
+msg = "Hell"
 secret_key = "aecret_k"
 
 #-------------------------------------------------------#
 
-#des object
+# des object
 # des_o = DES_M(block_size,rounds,secret_key,seed)
 # cypher , cypher_dash = des_o.encrypt(msg)
 
