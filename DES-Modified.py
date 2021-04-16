@@ -133,10 +133,9 @@ class DES_M:
     def encrypt(self,msg):
         #Add Padding
         pad_l = 8 - len(msg)%8
-        pad = ""
-        for i in range(pad_l):
-            pad += chr(ord('0')+pad_l)
+        pad = str(chr(ord('0')+pad_l))*pad_l
         msg = msg + pad
+        
         return self.DEA(msg,self.keys)
 
     def decrypt(self,c):
