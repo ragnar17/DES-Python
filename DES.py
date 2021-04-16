@@ -223,7 +223,7 @@ def DEA(text,keys,no_of_rounds):
     return cryp
 
 msg = "Hello wo"
-secret_key = "becret_k"
+secret_key = "recret_k"
 # print(msg[1:7])
 rounds = 5
 round_keys = generate_keys(secret_key,rounds)
