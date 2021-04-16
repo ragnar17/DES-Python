@@ -6,7 +6,7 @@ def getDataPoints(msg,msg2,rounds,block_size,seed,mask):
 	des_o = des_mod.DES_M(block_size,rounds,secret_key,seed,0&mask)
 	cypher , cypher_dash = des_o.encrypt(msg)
 
-
+	print("Block Size : ",block_size)
 	print("Encrypt : %r" %cypher)
 
 	m , _ = des_o.decrypt(cypher)
@@ -38,12 +38,15 @@ seed = 7
 msg = "hello wo"
 msg2 = "eello wo"
 
-#Change in Key
+
+# #Change in Key
+print("Change in a single Bit of Key")
 for i in blocks:
 	x,y = getDataPoints(msg,msg,rounds,i,seed,1)
 	x_points.append(x)
 	y_points.append(y)
 #Change in plaintext
+print("Change in a single Bit of Plaintext")
 for i in blocks:
 	x,y = getDataPoints(msg,msg2,rounds,i,seed,0)
 	x_points.append(x)
@@ -56,6 +59,7 @@ for i in range(len(blocks)):
 
 for i in range(len(blocks)):
 	plt.plot(x_points[3+i],y_points[3+i],label = "Change in Plaintext with Block-Size : "+str(blocks[i]),linestyle ="dashed")
+
 
 plt.xlabel("No. of Rounds")
 plt.ylabel("Difference in Bits")
