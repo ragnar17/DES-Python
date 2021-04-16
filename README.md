@@ -1,4 +1,7 @@
 # DES-Python
+
+Cryptographer Dhruv > > Cryptographer Bharat
+
 Use S-P Box Generator to generate tables for particular block size. Set the block size to 16,32,64 and then run. Copy its output.
 
 Now open Des-Modified.py then replace the tables lines with the copeid ones. On the bottom of file set the block size and rounds.
