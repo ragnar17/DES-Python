@@ -113,7 +113,7 @@ class DES_M:
                 #S-box
                 R_dash = self.substitution(R_dash)
 
-                # R_dash = self.permutation(R_dash,self.boxes.P)
+                R_dash = self.permutation(R_dash,self.boxes.P)
                 
 
                 R_dash = self.xor(R_dash,L)
@@ -130,17 +130,20 @@ class DES_M:
         cryp = self.bit_array_to_string(cryp)
         return cryp , cryp_inter
 
-    def encrypt(self,msg):
+    def encrypt(self,msg,padding =1):
         #Add Padding
-        pad_l = 8 - len(msg)%8
-        pad = str(chr(ord('0')+pad_l))*pad_l
-        msg = msg + pad
+        if(padding):
+            pad_l = 8 - len(msg)%8
+            pad = str(chr(ord('0')+pad_l))*pad_l
+            msg = msg + pad
         
         return self.DEA(msg,self.keys)
 
-    def decrypt(self,c):
+    def decrypt(self,c,padding = 1):
         m , m_inter = self.DEA(c,list(reversed(self.keys)))
-        pad_l = int(m[-1])
+        pad_l = 0
+        if(padding):
+            pad_l = int(m[-1])
         return m[:len(m)-pad_l], m_inter
 
 
